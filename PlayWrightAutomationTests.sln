@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayWrightAutomationTests", "PlayWrightAutomationTests\PlayWrightAutomationTests.csproj", "{58EA2319-E8DC-4A82-B154-50D076E8CFD8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayWright_POM", "PlayWright_POM\PlayWright_POM.csproj", "{ACED9C2D-935F-4909-A86B-7A7FBA86D095}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PW_Autotests_YT", "PlayWrightAutomationTests\PW_Autotests_YT.csproj", "{58EA2319-E8DC-4A82-B154-50D076E8CFD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{58EA2319-E8DC-4A82-B154-50D076E8CFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58EA2319-E8DC-4A82-B154-50D076E8CFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58EA2319-E8DC-4A82-B154-50D076E8CFD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACED9C2D-935F-4909-A86B-7A7FBA86D095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACED9C2D-935F-4909-A86B-7A7FBA86D095}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACED9C2D-935F-4909-A86B-7A7FBA86D095}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACED9C2D-935F-4909-A86B-7A7FBA86D095}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
