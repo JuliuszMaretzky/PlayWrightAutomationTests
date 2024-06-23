@@ -34,10 +34,32 @@ namespace SauceDemo.SauceDemoPages
             await Assertions.Expect(loginButton).ToBeVisibleAsync();
         }
 
-        public async Task TypeCredentials(string username, string password)
+        public async Task FillUsername(string username)
         {
             await usernameTextBox.FillAsync(username);
+        }
+
+        public async Task FillPassword(string password)
+        {
             await passwordTextBox.FillAsync(password);
+        }
+
+        public async Task FillCredentials(string username, string password)
+        {
+            await FillUsername(username);
+            await AssertFilledUsername(username);
+            await FillPassword(password);
+            await AssertFilledPassword(password);
+        }
+
+        public async Task AssertFilledUsername(string username)
+        {
+            await Assertions.Expect(usernameTextBox).ToHaveValueAsync(username);
+        }
+
+        public async Task AssertFilledPassword(string password)
+        {
+            await Assertions.Expect(passwordTextBox).ToHaveValueAsync(password);
         }
 
         public async Task ClickLogin()
