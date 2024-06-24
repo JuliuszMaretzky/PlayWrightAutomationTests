@@ -21,6 +21,7 @@ namespace SauceDemo
             await LoginPage.GoToLoginPage();
             await LoginPage.FillCredentials(login, standardPassword);
             await LoginPage.ClickLogin();
+            await InventoryPage.WaitForLoad();
         }
 
         [Test]
@@ -34,13 +35,14 @@ namespace SauceDemo
                 case standardUsername:
                     await LoginPage.FillUsername(standardUsername);
                     await LoginPage.AssertFilledPassword(string.Empty);
+                    await LoginPage.ClickLogin("Password");
                     break;
                 case standardPassword:
                     await LoginPage.FillPassword(standardPassword);
                     await LoginPage.AssertFilledUsername(string.Empty);
+                    await LoginPage.ClickLogin("Username");
                     break;
             }
-            await LoginPage.ClickLogin();
         }
     }
 }

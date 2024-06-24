@@ -14,7 +14,8 @@ namespace SauceDemo.SauceDemoPages
         private readonly ILocator usernameTextBox;
         private readonly ILocator passwordTextBox;
         private readonly ILocator loginButton;
-        private readonly ILocator loginPageHeader;
+        private readonly ILocator pageHeader;
+        private readonly ILocator loginErrorMessageContainer;
 
         public LoginPage(IPage page)
         {
@@ -22,13 +23,14 @@ namespace SauceDemo.SauceDemoPages
             usernameTextBox = _page.Locator("//input[@data-test='username']");
             passwordTextBox = _page.Locator("//input[@data-test='password']");
             loginButton = _page.Locator("//input[@data-test='login-button']");
-            loginPageHeader = _page.Locator("//*[@class='login_logo']");
+            pageHeader = _page.Locator("//*[@class='login_logo']");
+            loginErrorMessageContainer = _page.Locator("//h3[@data-test='error']");
         }
 
         public async Task GoToLoginPage()
         {
             await _page.GotoAsync(pageAddress);
-            await Assertions.Expect(loginPageHeader).ToHaveTextAsync("Swag Labs");
+            await Assertions.Expect(pageHeader).ToHaveTextAsync("Swag Labs");
             await Assertions.Expect(usernameTextBox).ToBeVisibleAsync();
             await Assertions.Expect(passwordTextBox).ToBeVisibleAsync();
             await Assertions.Expect(loginButton).ToBeVisibleAsync();
@@ -62,9 +64,13 @@ namespace SauceDemo.SauceDemoPages
             await Assertions.Expect(passwordTextBox).ToHaveValueAsync(password);
         }
 
-        public async Task ClickLogin()
+        public async Task ClickLogin(string missingCredential = "")
         {
             await loginButton.ClickAsync();
+            if(missingCredential != "")
+            {
+                await Assertions.Expect(loginErrorMessageContainer).ToHaveTextAsync($"Epic sadface: {missingCredential} is required");
+            }
         }
     }
 }

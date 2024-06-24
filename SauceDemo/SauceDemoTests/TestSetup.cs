@@ -6,11 +6,13 @@ namespace SauceDemo.SauceDemoTests
     public class TestSetup : PageTest
     {
         public LoginPage LoginPage { get; set; }
+        public InventoryPage InventoryPage { get; set; }
 
         [SetUp]
         public void Start()
         {
             LoginPage = new LoginPage(Page);
+            InventoryPage = new InventoryPage(Page);
         }
 
         [TearDown]
