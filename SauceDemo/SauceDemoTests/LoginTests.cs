@@ -2,7 +2,7 @@
 using Microsoft.Playwright.NUnit;
 using SauceDemo.SauceDemoTests;
 
-namespace SauceDemo
+namespace SauceDemo.SauceDemoTests
 {
     public class LoginTests : TestSetup
     {
