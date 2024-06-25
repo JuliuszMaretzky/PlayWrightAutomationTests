@@ -12,17 +12,20 @@ namespace SauceDemo.SauceDemoPages
         private const string pageAddress = "https://www.saucedemo.com/inventory.html";
         private readonly IPage _page;
         private readonly ILocator pageHeader;
-        private readonly ILocator productName;
         private readonly ILocator productSortDropDown;
-        public readonly Dictionary<string, string> productSortOptions;
+        private readonly ILocator activeSortOption;
 
+        public readonly string productNameXPath;
+        public readonly Dictionary<string, string> productSortOptions;
 
         public InventoryPage(IPage page)
         {
             _page = page;
             pageHeader = _page.Locator("//*[@class='app_logo']");
-            productName = _page.Locator("//*[@class='inventory_item_name ']");
             productSortDropDown = _page.Locator("//*[@class='product_sort_container']");
+            activeSortOption = _page.Locator("//*[@class='active_option']");
+
+            productNameXPath = "//*[contains(@class,'inventory_item_name')]";
             productSortOptions = new Dictionary<string, string>() 
             {
                 ["Name (A to Z)"] = "az",
@@ -35,6 +38,7 @@ namespace SauceDemo.SauceDemoPages
         public async Task WaitForLoad()
         {
             await Assertions.Expect(pageHeader).ToHaveTextAsync("Swag Labs");
+            await Assertions.Expect(activeSortOption).ToHaveTextAsync("Name (A to Z)");
         }
 
         public async Task SortProducts(string sortBy)
