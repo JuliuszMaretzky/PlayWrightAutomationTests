@@ -64,12 +64,12 @@ namespace SauceDemo.SauceDemoPages
             await Assertions.Expect(passwordTextBox).ToHaveValueAsync(password);
         }
 
-        public async Task ClickLogin(string missingCredential = "")
+        public async Task ClickLogin(string errorMessage = "")
         {
             await loginButton.ClickAsync();
-            if(missingCredential != "")
+            if(errorMessage != "")
             {
-                await Assertions.Expect(loginErrorMessageContainer).ToHaveTextAsync($"Epic sadface: {missingCredential} is required");
+                await Assertions.Expect(loginErrorMessageContainer).ToHaveTextAsync($"Epic sadface: {errorMessage}");
             }
         }
     }

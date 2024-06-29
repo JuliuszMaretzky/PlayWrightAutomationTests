@@ -18,9 +18,11 @@ namespace SauceDemo.SauceDemoTests
         [TestCase("visual_user")]
         public async Task Check_If_All_Usernames_On_Login_Page_Work_Properly(string login)
         {
+            var errorMsg = login == "locked_out_user" ? "Sorry, this user has been locked out." : "";
             await LoginPage.GoToLoginPage();
             await LoginPage.FillCredentials(login, standardPassword);
-            await LoginPage.ClickLogin();
+            await LoginPage.ClickLogin(errorMsg);
+            if (login == "locked_out_user") return;
             await InventoryPage.WaitForLoad();
         }
 
@@ -35,12 +37,12 @@ namespace SauceDemo.SauceDemoTests
                 case standardUsername:
                     await LoginPage.FillUsername(standardUsername);
                     await LoginPage.AssertFilledPassword(string.Empty);
-                    await LoginPage.ClickLogin("Password");
+                    await LoginPage.ClickLogin("Password is required");
                     break;
                 case standardPassword:
                     await LoginPage.FillPassword(standardPassword);
                     await LoginPage.AssertFilledUsername(string.Empty);
-                    await LoginPage.ClickLogin("Username");
+                    await LoginPage.ClickLogin("Username is required");
                     break;
             }
         }
