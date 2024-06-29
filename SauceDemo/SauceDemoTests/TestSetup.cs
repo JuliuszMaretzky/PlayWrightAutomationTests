@@ -7,12 +7,14 @@ namespace SauceDemo.SauceDemoTests
     {
         public LoginPage LoginPage { get; set; }
         public InventoryPage InventoryPage { get; set; }
+        public ProductPage ProductPage { get; set; }
 
         [SetUp]
         public void Start()
         {
             LoginPage = new LoginPage(Page);
             InventoryPage = new InventoryPage(Page);
+            ProductPage = new ProductPage(Page);
         }
 
         [TearDown]

@@ -12,11 +12,20 @@ namespace SauceDemo.SauceDemoTests
         private const string standardPassword = "secret_sauce";
         private const string standardUsername = "standard_user";
 
+        [SetUp]
+        public async Task SetUp()
+        {
+            await LoginPage.GoToLoginPage();
+            await LoginPage.FillCredentials(standardUsername, standardPassword);
+            await LoginPage.ClickLogin();
+            await InventoryPage.WaitForLoad();
+        }
+
         private async Task AssertProductNamesOrder(List<string> productNames)
         {
             for (int i = 0; i < productNames.Count; i++)
             {
-                await Assertions.Expect(Page.Locator($"({InventoryPage.productNameXPath})[{i + 1}]")).ToHaveTextAsync(productNames[i]);
+                await Assertions.Expect(InventoryPage.GetElementWithIndex(InventoryPage.productNameXPath, i+1)).ToHaveTextAsync(productNames[i]);
             }
         }
 
@@ -31,14 +40,31 @@ namespace SauceDemo.SauceDemoTests
                 "Sauce Labs Onesie",
                 "Test.allTheThings() T-Shirt (Red)"
             };
-            await LoginPage.GoToLoginPage();
-            await LoginPage.FillCredentials(standardUsername, standardPassword);
-            await LoginPage.ClickLogin();
-            await InventoryPage.WaitForLoad();
             await AssertProductNamesOrder(productNamesList);
             await InventoryPage.SortProducts(InventoryPage.productSortOptions["Name (Z to A)"]);
             productNamesList.Reverse();
             await AssertProductNamesOrder(productNamesList);
+        }
+
+        [Test]
+        public async Task Check_If_Products_Have_Same_Parameters_On_List_And_In_Details()
+        {
+            var numberOfItemsOnList = 6;
+            var values = new Dictionary<string, string>();
+            ILocator product;
+            for (int i = 1; i <= numberOfItemsOnList; i++)
+            {
+                product = InventoryPage.GetElementWithIndex(InventoryPage.productNameXPath, i);
+                values["Name"] = await product.TextContentAsync();
+                values["Description"] = await InventoryPage.GetElementWithIndex(InventoryPage.productDescriptionXPath, i).TextContentAsync();
+                values["Price"] = await InventoryPage.GetElementWithIndex(InventoryPage.productPriceXPath, i).TextContentAsync();
+                await product.ClickAsync();
+                await ProductPage.WaitForLoad();
+                await Assertions.Expect(ProductPage.productNameText).ToHaveTextAsync(values["Name"]);
+                await Assertions.Expect(ProductPage.productDescriptionText).ToHaveTextAsync(values["Description"]);
+                await Assertions.Expect(ProductPage.productPriceText).ToHaveTextAsync(values["Price"]);
+                await ProductPage.BackToInventory();
+            }
         }
     }
 }

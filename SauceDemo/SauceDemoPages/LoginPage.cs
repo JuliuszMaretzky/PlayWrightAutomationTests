@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace SauceDemo.SauceDemoPages
 {
-    public class LoginPage
+    public class LoginPage : BasePage
     {
         private const string pageAddress = "https://www.saucedemo.com/";
-        private readonly IPage _page;
         private readonly ILocator usernameTextBox;
         private readonly ILocator passwordTextBox;
         private readonly ILocator loginButton;
         private readonly ILocator pageHeader;
         private readonly ILocator loginErrorMessageContainer;
 
-        public LoginPage(IPage page)
+        public LoginPage(IPage page):base(page)
         {
-            _page = page;
             usernameTextBox = _page.Locator("//input[@data-test='username']");
             passwordTextBox = _page.Locator("//input[@data-test='password']");
             loginButton = _page.Locator("//input[@data-test='login-button']");
