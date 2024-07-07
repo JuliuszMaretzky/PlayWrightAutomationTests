@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SauceDemo.SauceDemoPages
 {
-    public class CartPage:BasePage
+    public class CartPage : BasePage
     {
         public readonly ILocator continueShoppingButton;
         public readonly string productNameXPath = "//*[contains(@class,'inventory_item_name')]";
@@ -18,7 +18,7 @@ namespace SauceDemo.SauceDemoPages
 
         private ILocator pageTitleLabel;
 
-        public CartPage(IPage page) : base(page) 
+        public CartPage(IPage page) : base(page)
         {
             pageTitleLabel = _page.Locator("//*[@class='title' and text()='Your Cart']");
             continueShoppingButton = _page.Locator("//button[text()='Continue Shopping']");
