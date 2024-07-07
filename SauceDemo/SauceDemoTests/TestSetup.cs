@@ -8,6 +8,7 @@ namespace SauceDemo.SauceDemoTests
         public LoginPage LoginPage { get; set; }
         public InventoryPage InventoryPage { get; set; }
         public ProductPage ProductPage { get; set; }
+        public CartPage CartPage { get; set; }
 
         [SetUp]
         public void Start()
@@ -15,6 +16,7 @@ namespace SauceDemo.SauceDemoTests
             LoginPage = new LoginPage(Page);
             InventoryPage = new InventoryPage(Page);
             ProductPage = new ProductPage(Page);
+            CartPage = new CartPage(Page);
         }
 
         [TearDown]

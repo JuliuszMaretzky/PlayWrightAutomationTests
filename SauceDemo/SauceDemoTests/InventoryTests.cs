@@ -66,5 +66,45 @@ namespace SauceDemo.SauceDemoTests
                 await ProductPage.BackToInventory();
             }
         }
+
+        [Test]
+        [TestCase("Inventory Page")]
+        [TestCase("Cart Page")]
+        public async Task Add_Item_To_Cart_And_Remove(string removeFrom)
+        {
+            await Assertions.Expect(InventoryPage.GetElementWithIndex(InventoryPage.addToCartXPath, 1)).ToHaveTextAsync("Add to cart");
+            await Assertions.Expect(InventoryPage.cartItemCounter).Not.ToBeVisibleAsync();
+            var productName = await InventoryPage.GetElementWithIndex(InventoryPage.productNameXPath, 1).TextContentAsync();
+            var productDescription = await InventoryPage.GetElementWithIndex(InventoryPage.productDescriptionXPath, 1).TextContentAsync();
+            var productPrice = await InventoryPage.GetElementWithIndex(InventoryPage.productPriceXPath, 1).TextContentAsync();
+            await InventoryPage.GetElementWithIndex(InventoryPage.addToCartXPath, 1).ClickAsync();
+            await Assertions.Expect(InventoryPage.GetElementWithIndex(InventoryPage.addToCartXPath, 1)).ToHaveTextAsync("Remove");
+            await Assertions.Expect(InventoryPage.cartItemCounter).ToHaveTextAsync("1");
+            if (removeFrom == "Inventory Page")
+            {
+                await InventoryPage.GetElementWithIndex(InventoryPage.addToCartXPath, 1).ClickAsync();
+                await Assertions.Expect(InventoryPage.GetElementWithIndex(InventoryPage.addToCartXPath, 1)).ToHaveTextAsync("Add to cart");
+                await Assertions.Expect(InventoryPage.cartItemCounter).Not.ToBeVisibleAsync();
+            }
+            await InventoryPage.cartIcon.ClickAsync();
+            await CartPage.WaitForLoad();
+            if (removeFrom == "Cart Page")
+            {
+                await Assertions.Expect(InventoryPage.cartItemCounter).ToHaveTextAsync("1");
+                await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.productNameXPath, 1)).ToHaveTextAsync(productName);
+                await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.productDescriptionXPath, 1)).ToHaveTextAsync(productDescription);
+                await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.productPriceXPath, 1)).ToHaveTextAsync(productPrice);
+                await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.removeProductButtonXPath, 1)).ToBeVisibleAsync();
+                await CartPage.GetElementWithIndex(CartPage.removeProductButtonXPath, 1).ClickAsync();
+            }
+            await Assertions.Expect(InventoryPage.cartItemCounter).Not.ToBeVisibleAsync();
+            await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.productNameXPath, 1)).Not.ToBeVisibleAsync();
+            await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.productDescriptionXPath, 1)).Not.ToBeVisibleAsync();
+            await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.productPriceXPath, 1)).Not.ToBeVisibleAsync();
+            await Assertions.Expect(CartPage.GetElementWithIndex(CartPage.removeProductButtonXPath, 1)).Not.ToBeVisibleAsync();
+            await CartPage.continueShoppingButton.ClickAsync();
+            await InventoryPage.WaitForLoad();
+            await Assertions.Expect(InventoryPage.cartItemCounter).Not.ToBeVisibleAsync();
+        }
     }
 }

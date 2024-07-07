@@ -9,34 +9,34 @@ namespace SauceDemo.SauceDemoPages
 {
     public class InventoryPage : BasePage
     {
+        public readonly ILocator cartIcon;
+        public readonly ILocator cartItemCounter;
+        public readonly string productNameXPath = "//*[contains(@class,'inventory_item_name')]";
+        public readonly string productDescriptionXPath = "//*[@class='inventory_item_desc']";
+        public readonly string productPriceXPath = "//*[@class='inventory_item_price']";
+        public readonly string addToCartXPath = "//button[contains(@class,'btn_inventory')]";
+        public readonly Dictionary<string, string> productSortOptions = new Dictionary<string, string>()
+        {
+            ["Name (A to Z)"] = "az",
+            ["Name (Z to A)"] = "za",
+            ["Price (low to high)"] = "lohi",
+            ["Price (high to low)"] = "hilo"
+        };
+
         private readonly ILocator pageHeader;
         private readonly ILocator productSortDropDown;
         private readonly ILocator activeSortOption;
-
-        public readonly string productNameXPath;
-        public readonly string productDescriptionXPath;
-        public readonly string productPriceXPath;
-        public readonly Dictionary<string, string> productSortOptions;
 
         public InventoryPage(IPage page):base(page)
         {
             pageHeader = _page.Locator("//*[@class='app_logo']");
             productSortDropDown = _page.Locator("//*[@class='product_sort_container']");
             activeSortOption = _page.Locator("//*[@class='active_option']");
-            
-            productNameXPath = "//*[contains(@class,'inventory_item_name')]";
-            productDescriptionXPath = "//*[@class='inventory_item_desc']"; 
-            productPriceXPath = "//*[@class='inventory_item_price']"; 
-            productSortOptions = new Dictionary<string, string>() 
-            {
-                ["Name (A to Z)"] = "az",
-                ["Name (Z to A)"] = "za",
-                ["Price (low to high)"] = "lohi",
-                ["Price (high to low)"] = "hilo"
-            };
+            cartIcon = _page.Locator("//a[@class='shopping_cart_link']");
+            cartItemCounter = _page.Locator("//*[@class='shopping_cart_badge']");
         }
 
-        public async Task WaitForLoad()
+        public override async Task WaitForLoad()
         {
             await Assertions.Expect(pageHeader).ToHaveTextAsync("Swag Labs");
             await Assertions.Expect(activeSortOption).ToHaveTextAsync("Name (A to Z)");
@@ -46,11 +46,6 @@ namespace SauceDemo.SauceDemoPages
         {
             await productSortDropDown.ClickAsync();
             await productSortDropDown.SelectOptionAsync(new[] { sortBy });
-        }
-
-        public ILocator GetElementWithIndex(string itemXPath, int index)
-        {
-            return _page.Locator($"({itemXPath})[{index}]");
         }
     }
 }
